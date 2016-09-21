@@ -1,0 +1,26 @@
+create table sixmember(
+	mnum number(3),
+	mgrade varchar2(50),
+	mname varchar2(50),
+	mphone varchar2(50),
+	memail varchar2(50),
+	
+	constraint pk_sixmember primary key(mnum)
+)
+
+select * from sixmember
+
+insert into sixmember(mnum, mgrade, mname, mphone, memail)
+values(1, 'sudura', 'muhamade', '010-0100-0101', 'muhamade@arab.com')
+
+	select mnum, mgrade, mname, mphone, memail, r
+		from(
+		 select mnum, mgrade, mname, mphone, memail, rownum r
+		 from(
+		 select mnum, mgrade, mname, mphone, memail
+		 from sixmember
+		 order by mname asc
+		 )
+		 
+		)
+	

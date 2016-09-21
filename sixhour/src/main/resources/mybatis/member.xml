@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="member">
+	
+	<insert id="create" parameterType="MemberDTO">
+		insert into sixmember(mnum, mgrade, mname, mphone, memail)
+		values(#{mnum}, #{mgrade}, #{mname}, #{mphone}, #{memail})
+	</insert>
+	
+	
+	<select id="read" parameterType="String" resultType="MemberDTO">
+		SELECT *
+		FROM sixmember
+		WHERE mnum = #{mnum}
+	</select>
+	
+	
+	<update id="update" parameterType="MemberDTO">
+		update sixmember
+		set 
+		mnum = #{mnum},
+		mgrade = #{mgrade},
+		mname = #{mname},
+		mphone = #{mphone},
+		memail = #{memail}		
+		where mnum = #{mnum}
+	
+	</update>
+		
+		<delete id="delete" parameterType="String">
+		DELETE sixmember
+		where mnum = #{mnum}
+	</delete>
+	
+	<select id="list" parameterType="Map" resultType="MemberDTO">
+		select mnum, mgrade, mname, mphone, memail, r
+		from(
+		 select mnum, mgrade, mname, mphone, memail, rownum r
+		 from(
+		 select mnum, mgrade, mname, mphone, memail
+		 from sixmember
+		 
+		 
+		<where>
+			<if test="col=='mnum'">
+				mnum LIKE '%' || #{word} || '%'
+			</if>
+			<if test="col=='mgrade'">
+				mgrade LIKE '%' || #{word} || '%'
+			</if>
+			<if test="col=='mname'">
+				mname LIKE '%' || #{word} || '%'
+			</if>
+			<if test="col=='mphone'">
+				mphone LIKE '%' || #{word} || '%'
+			</if>
+			<if test="col=='memail'">
+				memail LIKE '%' || #{word} || '%'
+			</if>
+
+		</where>
+		 
+		 
+		 order by mname asc
+		 )
+		 
+		)
+	
+	</select>
+	<select id="total" parameterType="Map" resultType="int">
+	
+	
+	select count(*) from sixmember
+	<where>
+			<if test="col=='mnum'">
+				mnum LIKE '%' || #{word} || '%'
+			</if>
+			<if test="col=='mgrade'">
+				mgrade LIKE '%' || #{word} || '%'
+			</if>
+			<if test="col=='mname'">
+				mname LIKE '%' || #{word} || '%'
+			</if>
+			<if test="col=='mphone'">
+				mphone LIKE '%' || #{word} || '%'
+			</if>
+			<if test="col=='memail'">
+				memail LIKE '%' || #{word} || '%'
+			</if>
+
+		</where>
+	</select>
+</mapper>
